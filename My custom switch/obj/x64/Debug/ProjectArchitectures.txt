@@ -1,0 +1,1 @@
+E:\GitHub\My custom switch\My custom switch\My custom switch.csproj;x64
