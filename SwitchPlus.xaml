@@ -1,0 +1,19 @@
+﻿<UserControl
+    x:Class="SwitchPlus.SwitchPlus"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="500"
+    d:DesignWidth="1100">
+
+    <Grid PointerMoved="Grid_PointerMoved">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Canvas Name="C1" Height="400" IsTapEnabled="False" Width="1000"/>
+        <TextBlock Name="Txt" TextTrimming="WordEllipsis" IsTapEnabled="False" TextWrapping="NoWrap" Width="400" Height="120" FontSize="100" Margin="550,150,50,150" Text="{x:Bind Text, Mode=OneWay}"/>
+        <Canvas Name="C2" Height="400" Width="1000" IsTapEnabled="True" Tapped="Canvas_Tapped" PointerPressed="C2_PointerPressed" PointerReleased="C2_PointerReleased"/>
+    </Grid>
+</UserControl>

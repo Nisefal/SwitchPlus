@@ -1,0 +1,14 @@
+﻿<Page
+    x:Class="SwitchPlus.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:SwitchPlus"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" Height="628" Width="1236">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
+        <local:SwitchPlus Name="MySwitch" HorizontalAlignment="Left" IsOn="False" KnobPadding="30" Background="Silver" Height="500" Margin="62,88,0,0" VerticalAlignment="Top" Width="1032" OnStateChanged="SwitchPlus_OnValueChanged"/>
+        <ToggleSwitch Header="ToggleSwitch" HorizontalAlignment="Left" Margin="967,522,0,0" VerticalAlignment="Top" Height="106" Width="269"/>
+    </Grid>
+</Page>
