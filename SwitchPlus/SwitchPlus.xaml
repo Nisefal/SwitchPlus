@@ -7,13 +7,52 @@
     mc:Ignorable="d"
     d:DesignHeight="500"
     d:DesignWidth="1100">
+    <UserControl.Resources>
+        <Storyboard x:Name="myStoryboard">
 
+        </Storyboard>
+        <Storyboard x:Name="MyStoryboard"/>
+    </UserControl.Resources>
     <Grid PointerMoved="Grid_PointerMoved">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Canvas Name="C1" Height="400" IsTapEnabled="False" Width="1000"/>
-        <TextBlock Name="Txt" TextTrimming="WordEllipsis" IsTapEnabled="False" TextWrapping="NoWrap" Width="400" Height="120" FontSize="100" Margin="550,150,50,150" Text="{x:Bind Text, Mode=OneWay}"/>
-        <Canvas Name="C2" Height="400" Width="1000" IsTapEnabled="True" Tapped="Canvas_Tapped" PointerPressed="C2_PointerPressed" PointerReleased="C2_PointerReleased"/>
+        <Canvas Name="C1" IsTapEnabled="False" Grid.ColumnSpan="2" Margin="50">
+            <Rectangle x:Name="rectangle1" Height="400" Width="1000" RadiusX="200" RadiusY="200"></Rectangle>
+            <Rectangle x:Name="rectangle" Height="400" Width="1000" RadiusX="200" RadiusY="200">
+                <Rectangle.Fill>
+                    <LinearGradientBrush x:Name="linearGradientBrush" EndPoint="1,0" StartPoint="0,0">
+                        <GradientStop x:Name="gradientStop0" Color="Transparent" Offset="0"/>
+                        <GradientStop x:Name="gradientStop1" Color="White" Offset="0.05"/>
+                        <GradientStop x:Name="gradientStop2" Color="Transparent" Offset="0.1"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+
+            </Rectangle>
+
+
+        </Canvas>
+        <TextBlock Name="Txt" TextTrimming="WordEllipsis" TextWrapping="NoWrap" FontSize="100" Margin="600,190,100,190" Text="{x:Bind Text, Mode=OneWay}" Grid.ColumnSpan="2" RenderTransformOrigin="0.5,0.5">
+            <TextBlock.RenderTransform>
+                <CompositeTransform/>
+            </TextBlock.RenderTransform>
+        </TextBlock>
+        <Canvas Name="C2" IsTapEnabled="True" PointerPressed="C2_PointerPressed" PointerReleased="C2_PointerReleased" Grid.ColumnSpan="2" Margin="50" RenderTransformOrigin="0.5,0.5">
+            <Rectangle Name="fill" Height="400" Width="1000" RadiusX="200" RadiusY="200" Fill="Transparent"/>
+            <Rectangle Name="main_shade" Height="400" Width="400" RadiusX="200" RadiusY="200"/>
+            <Rectangle Name="shade" Height="0" Width="0" RadiusX="200" RadiusY="200"/>
+            <Rectangle Name="knob" Height="400" Width="400" RadiusX="200" RadiusY="200" Fill="White">
+            </Rectangle>
+            <Rectangle Name="knob_fill" Height="400" Width="400" Opacity="0.5" RadiusX="200" RadiusY="200">
+                <Rectangle.Fill>
+                    <LinearGradientBrush x:Name="linearGradientBrush_k" EndPoint="6,0" StartPoint="0,0">
+                        <GradientStop x:Name="gradientStop_k1" Color="Transparent" Offset="0"/>
+                        <GradientStop x:Name="gradientStop_k0" Offset="0"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+
+        </Canvas>
     </Grid>
 </UserControl>
