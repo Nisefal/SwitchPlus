@@ -1,9 +1,17 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
+using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Animation;
-using Windows.UI.Composition;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -19,13 +27,14 @@ namespace SwitchPlus
             this.InitializeComponent();
         }
 
+        //SwitchPlus.
+
         private void SwitchPlus_OnValueChanged(object sender, EventArgs args)
         {
-            bool a;
-            a = true;
+
         }
 
-        private void SwitchPlus_OnStateChanged(object sender, EventArgs args)
+        private void Rectangle_Tapped(object sender, TappedRoutedEventArgs e)
         {
 
         }
