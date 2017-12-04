@@ -6,8 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d" Height="628" Width="1236">
-
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
-        <local:SwitchPlus Name="MySwitch" HorizontalAlignment="Left" IsOn="False" KnobPadding="30" Background="Silver" Height="500" Margin="62,88,0,0" VerticalAlignment="Top" Width="1032" OnStateChanged="SwitchPlus_OnValueChanged"/>
-    </Grid>
+<Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
+        <local:SwitchPlus Name="MySwitch" HorizontalAlignment="Left" IsOn="True" KnobPadding="30" Height="500" Margin="62,88,0,0" VerticalAlignment="Top" Width="1032" OnStateChanged="SwitchPlus_OnStateChanged" OnValueChanged="SwitchPlus_OnValueChanged"/>
+</Grid>
 </Page>
