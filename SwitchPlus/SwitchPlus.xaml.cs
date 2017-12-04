@@ -13,6 +13,7 @@ namespace SwitchPlus
     {
         private bool draged;
         private double position;
+
         private double delta;
         private double overal_delta;
         private Rectangle back = new Rectangle();
@@ -24,7 +25,7 @@ namespace SwitchPlus
         private double _width = 1000;
         private int shade_delta = 20;
         private double _old_position;
-        private double _additional_width;
+        private double _additional_width_r, _additional_width_l;
         private bool tmpState;
         private DispatcherTimer timer;
 
@@ -175,6 +176,9 @@ namespace SwitchPlus
             C2.Children.Add(shade);
             C2.Children.Add(knob);
             SetTimerRollBack();
+            main_shade.HorizontalAlignment = HorizontalAlignment.Right;
+            shade.HorizontalAlignment = HorizontalAlignment.Right;
+            knob.HorizontalAlignment = HorizontalAlignment.Right;
         }
 
         /// <summary>
@@ -214,10 +218,12 @@ namespace SwitchPlus
         private void C2_PointerReleased(object sender, PointerRoutedEventArgs e)
         {
             _isBeingDragged = false;
+            delta = 0;
+            _old_position = 0;
+            position = 0;
+
             IsOn = tmpState;
-            SwitchState();
-            _additional_width = 0;
-            timer.Stop();
+            LongSwitchState();
         }
 
         private void Canvas_Tapped(object sender, TappedRoutedEventArgs e)
@@ -236,16 +242,43 @@ namespace SwitchPlus
                 Windows.UI.Input.PointerPoint pp = e.GetCurrentPoint(relativeTo: this.C2);
                 position = pp.Position.X;
 
-                delta = position - _old_position;
+                if (_old_position != 0)
+                    delta = position - _old_position;
+                else
+                    delta = 0;
 
                 if (OnValueChanged != null)
                     OnValueChanged(this, new EventArgs());
                 overal_delta += delta;
-
-                if (delta < 0)
-                    _additional_width -= delta;
-                else
-                    _additional_width += delta;
+                if (overal_delta <= _width - _height && overal_delta >= _height / 2)
+                {
+                    if (delta < 0)
+                    {
+                        if (_additional_width_r != 0)
+                        {
+                            _additional_width_r += delta;
+                            if (_additional_width_r < 0)
+                                _additional_width_r = 0;
+                        }
+                        else
+                        {
+                            _additional_width_l -= delta;
+                        }
+                    }
+                    else
+                    {
+                        if (_additional_width_l != 0)
+                        {
+                            _additional_width_l -= delta;
+                            if (_additional_width_l < 0)
+                                _additional_width_l = 0;
+                        }
+                        else
+                        {
+                            _additional_width_r += delta;
+                        }
+                    }
+                }
 
                 double percentage = (2 * position - _height) / _width; // checks if center of knob surpasses 1/2 of the control
                 if (percentage >= 0.5)
@@ -264,23 +297,77 @@ namespace SwitchPlus
         {
             timer = new DispatcherTimer();
             timer.Tick += RollBack;
-            timer.Interval = new TimeSpan();
+            timer.Interval = new TimeSpan(0,0,0,0,5);
         }
 
         private void RollBack(object sender, object e)
         {
-            _additional_width -= 20;
-            if (_additional_width <= 0)
-                _additional_width = 0;
+            _additional_width_r -= 40;
+            if (_additional_width_r <= 0)
+                _additional_width_r = 0;
+            _additional_width_l -= 40;
+            if (_additional_width_l <= 0)
+                _additional_width_l = 0;
+            double _additional_width = _additional_width_l + _additional_width_r;
 
-            ((Rectangle)C2.Children[1]).Width = _height + _additional_width;
-            ((Rectangle)C2.Children[2]).Width = _height + _additional_width - KnobPadding*2;
-            ((Rectangle)C2.Children[3]).Width = _height + _additional_width - KnobPadding*2;
-
-            ((Rectangle)C2.Children[1]).Margin = new Thickness(overal_delta, 0, 0, 0);
-            ((Rectangle)C2.Children[2]).Margin = new Thickness(overal_delta + KnobPadding, KnobPadding + shade_delta, 0, 0);
-            ((Rectangle)C2.Children[3]).Margin = new Thickness(overal_delta + KnobPadding, KnobPadding, 0, 0);
-
+            if (delta > 0)
+            {
+                main_shade.Width = _height + _additional_width;
+                shade.Width = _height + _additional_width - KnobPadding * 2;
+                knob.Width = _height + _additional_width - KnobPadding * 2;
+                double res = overal_delta - _height/2 - _additional_width;
+                if (overal_delta  >= _width - _height)
+                {
+                    main_shade.Margin = new Thickness(_width - _height - _additional_width, 0, 0, 0);
+                    shade.Margin = new Thickness(_width - _height - _additional_width + KnobPadding, KnobPadding + shade_delta, 0, 0);
+                    knob.Margin = new Thickness(_width - _height - _additional_width + KnobPadding, KnobPadding, 0, 0);
+                }
+                else
+                {
+                    if (overal_delta <= _height / 2)
+                    {
+                        main_shade.Margin = new Thickness(0, 0, 0, 0);
+                        shade.Margin = new Thickness(KnobPadding, KnobPadding + shade_delta, 0, 0);
+                        knob.Margin = new Thickness(KnobPadding, KnobPadding, 0, 0);
+                    }
+                    else
+                    {
+                    main_shade.Margin = new Thickness(res, 0, 0, 0);
+                    shade.Margin = new Thickness(res + KnobPadding, KnobPadding + shade_delta, 0, 0);
+                    knob.Margin = new Thickness(res + KnobPadding, KnobPadding, 0, 0);
+                    }
+                }
+            }
+            else
+            {
+                main_shade.Width = _height + _additional_width;
+                shade.Width = _height + _additional_width - KnobPadding * 2;
+                knob.Width = _height + _additional_width - KnobPadding * 2;
+                double res = overal_delta - _height/2;
+                if(overal_delta <= _height/2)
+                {
+                    main_shade.Margin = new Thickness(0, 0, 0, 0);
+                    shade.Margin = new Thickness(KnobPadding, KnobPadding + shade_delta, 0, 0);
+                    knob.Margin = new Thickness(KnobPadding, KnobPadding, 0, 0);
+                }
+                else
+                {
+                    if (overal_delta >= _width - _height)
+                    {
+                        main_shade.Margin = new Thickness(_width - _height - _additional_width, 0, 0, 0);
+                        shade.Margin = new Thickness(_width - _height - _additional_width + KnobPadding, KnobPadding + shade_delta, 0, 0);
+                        knob.Margin = new Thickness(_width - _height - _additional_width + KnobPadding, KnobPadding, 0, 0);
+                    }
+                    else
+                    {
+                        main_shade.Margin = new Thickness(res, 0, 0, 0);
+                        shade.Margin = new Thickness(res + KnobPadding, KnobPadding + shade_delta, 0, 0);
+                        knob.Margin = new Thickness(res + KnobPadding, KnobPadding, 0, 0);
+                    }
+                }
+            }
+            if (!_isBeingDragged && _additional_width == 0)
+                timer.Stop();
         }
     }
 }

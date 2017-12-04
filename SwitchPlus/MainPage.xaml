@@ -9,6 +9,5 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" >
         <local:SwitchPlus Name="MySwitch" HorizontalAlignment="Left" IsOn="False" KnobPadding="30" Background="Silver" Height="500" Margin="62,88,0,0" VerticalAlignment="Top" Width="1032" OnStateChanged="SwitchPlus_OnValueChanged"/>
-        <ToggleSwitch Header="ToggleSwitch" HorizontalAlignment="Left" Margin="967,522,0,0" VerticalAlignment="Top" Height="106" Width="269"/>
     </Grid>
 </Page>
